@@ -4,5 +4,8 @@
   "description": "http server for dynamically mocking responses",
   "main": "index.js",
   "author": "ewolfe <e@ewolfe.me>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "micro": "^9.3.4"
+  }
 }
