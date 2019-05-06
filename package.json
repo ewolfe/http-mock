@@ -5,6 +5,9 @@
   "main": "index.js",
   "author": "ewolfe <e@ewolfe.me>",
   "license": "MIT",
+  "scripts": {
+    "start": "micro"
+  },
   "dependencies": {
     "micro": "^9.3.4"
   }
