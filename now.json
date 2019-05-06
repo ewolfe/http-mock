@@ -3,7 +3,8 @@
   "alias": "httpmock.app",
   "routes": [
     {
-      "src": ".+"
+      "src": "/(.*)",
+      "dest": "/"
     }
   ],
   "builds": [{ "src": "*.js", "use": "@now/node" }]
