@@ -1,4 +1,5 @@
 {
   "version": 2,
+  "alias": "httpmock.app",
   "builds": [{ "src": "index.js", "use": "@now/node" }]
 }
