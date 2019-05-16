@@ -6,8 +6,8 @@
   "author": "ewolfe <e@ewolfe.me>",
   "license": "MIT",
   "scripts": {
-    "start": "micro",
-    "dev": "micro-dev"
+    "start": "node --max-http-header-size=5242880 ./node_modules/.bin/micro --listen tcp://0.0.0.0:${PORT-3000}",
+    "dev": "node --max-http-header-size=5242880 ./node_modules/.bin/micro-dev"
   },
   "dependencies": {
     "micro": "^9.3.4"
