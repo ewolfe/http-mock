@@ -1,7 +1,6 @@
 const { send } = require("micro");
 
 module.exports = (req, res) => {
-  // console.log(req.method);
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   switch (req.method) {
@@ -28,10 +27,10 @@ module.exports = (req, res) => {
         } catch (error) {
           return send(res, 500, {
             error: "Failed parsing 'response-headers'",
-            info: error.toString()
+            info: error.toString(),
           });
         }
-        Object.entries(responseHeaders).forEach(keyValuePair => {
+        Object.entries(responseHeaders).forEach((keyValuePair) => {
           res.setHeader(keyValuePair[0], keyValuePair[1]);
         });
       }
