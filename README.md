@@ -30,10 +30,10 @@ or
 fetch("https://httpmock.app/users/ewolfe", {
   headers: {
     "response-body": '{"followers": 9001, "etc": "anything you want"}',
-    "response-headers": '{"Content-Type":"application/json"}'
+    "response-headers": '{"Content-Type":"application/json"}',
   },
   method: "GET",
-  mode: "cors"
+  mode: "cors",
 });
 ```
 
@@ -52,8 +52,8 @@ storiesOf("Avatar", module).add("default", () => {
   httpMock.get("/users/ewolfe", {
     body: {
       followers: 9001,
-      etc: "anthing you want"
-    }
+      etc: "anthing you want",
+    },
   });
 
   // <Avatar /> would normally make a request to https://your-domain.com/users/ewolfe

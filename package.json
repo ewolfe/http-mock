@@ -16,6 +16,7 @@
     "micro": "^9.3.4"
   },
   "devDependencies": {
-    "micro-dev": "^3.0.0"
+    "micro-dev": "^3.0.0",
+    "prettier": "2.2.1"
   }
 }
