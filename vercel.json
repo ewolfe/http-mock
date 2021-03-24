@@ -6,6 +6,5 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ],
-  "builds": [{ "src": "*.js", "use": "@now/node" }]
+  ]
 }
