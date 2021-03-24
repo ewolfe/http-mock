@@ -28,10 +28,11 @@ module.exports = async (req, res) => {
         try {
           responseHeaders = JSON.parse(req.headers["response-headers"]);
         } catch (error) {
-          return send(res, 500, {
+          req.status(500).json({
             error: "Failed parsing 'response-headers'",
             info: error.toString(),
           });
+          return;
         }
         Object.entries(responseHeaders).forEach((keyValuePair) => {
           res.setHeader(keyValuePair[0], keyValuePair[1]);
