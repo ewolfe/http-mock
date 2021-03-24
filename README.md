@@ -62,6 +62,10 @@ storiesOf("Components/CheckingBalance", module).add("default", () => {
     body: {
       balance: "$1.00",
     },
+    // headers: {
+    //   "x-demo": "demo"
+    // },
+    // status: 200
   });
 
   return <CheckingBalance account={123} />;
