@@ -1,27 +1,31 @@
 # http-mock
 
-> Mock an endpoint by sending your response shape as request headers 🤯
+> On the fly HTTP mocking server
 
 ## The Problem
 
-You want to mock an HTTP endpoint but you need to configure your mocked data dynamically in an easy, programmatic, way. This means you don't want to pay for it, you don’t want a dashboard (or GUI, or admin panel), or have to create an account with some service.
+You want to mock an HTTP endpoint, maybe in a test file or in a design library tool like [Storybook](https://storybook.js.org/). You also don't want to sign up for a service. Most importantly, you actually want a real network request to fire instead of having the request be mocked in memory.
 
 ## This Solution
 
-_http-mock_ is a node.js server that returns whatever data you tell it to return. You pass the data as custom headers:
+_http-mock_ provides a server and a configuration tool that runs in the browser.
+
+### Server
+
+https://httpmock.app/ is a (node.js) server that's freely accessible. All requests return exactly the data you tell it to return. This is done via custom request headers that the server introspects and uses for the response:
 
 ```
 response-body: <plaintext|stringified JSON>
 response-headers: <stringified JSON>
+response-status: <integer>
 ```
-
-## Examples
 
 ```sh
 curl -X GET \
   https://httpmock.app/users/ewolfe \
   -H 'response-body: {"followers": 9001, "etc": "anything you want"}' \
-  -H 'response-headers: {"Content-Type":"application/json"}'
+  -H 'response-headers: {"Content-Type":"application/json"}' \
+  -H 'response-status: 200'
 ```
 
 or
@@ -31,11 +35,44 @@ fetch("https://httpmock.app/users/ewolfe", {
   headers: {
     "response-body": '{"followers": 9001, "etc": "anything you want"}',
     "response-headers": '{"Content-Type":"application/json"}',
+    "response-status": 200,
   },
   method: "GET",
   mode: "cors",
 });
 ```
+
+You can make a request to any path you would like `https://httpmock.app/<anything/you/want>`.
+
+![Alt text](/examples/demo.gif "demo")
+
+### Configuration Tool
+
+The configuration tool IS NOT an http client even though it might look like one.
+
+```js
+import { storiesOf } from "@storybook/react";
+import React from "react";
+import httpMock from "http-mock";
+
+import CheckingBalance from "./index.js";
+
+storiesOf("Components/CheckingBalance", module).add("default", () => {
+  httpMock.get("/balance?account=123", {
+    body: {
+      balance: "$1.00",
+    },
+    // headers: {
+    //   "x-demo": "demo"
+    // },
+    // status: 200
+  });
+
+  return <CheckingBalance account={123} />;
+});
+```
+
+In this scenarion we're imagining that our `CheckingBalance` component makes a network request to an endpoint `/balance?account=123` on `componentDidMount` or similar, but in Storybook we won't actually have a session to complete this request. So, before our component actually mounts and renders we setup our httpMock. Underneath the hood, this works by intercepting requests and forwarding them to https://httpmock.app/ with the appropriate headers that we saw above.
 
 ## Roadmap
 
