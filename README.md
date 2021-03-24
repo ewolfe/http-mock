@@ -44,7 +44,7 @@ fetch("https://httpmock.app/users/ewolfe", {
 
 You can make a request to any path you would like `https://httpmock.app/<anything/you/want>`.
 
-/examples/demo.mp4
+![Alt text](/examples/demo.gif "demo")
 
 ### Configuration Tool
 
