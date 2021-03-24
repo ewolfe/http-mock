@@ -10,13 +10,10 @@
   },
   "scripts": {
     "start": "node --max-http-header-size=5242880 ./node_modules/.bin/micro --listen tcp://0.0.0.0:${PORT-3000}",
-    "dev": "node --max-http-header-size=5242880 ./node_modules/.bin/micro-dev"
-  },
-  "dependencies": {
-    "micro": "^9.3.4"
+    "dev": "vercel dev"
   },
   "devDependencies": {
-    "micro-dev": "^3.0.0",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "vercel": "^21.3.3"
   }
 }

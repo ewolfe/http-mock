@@ -1,14 +1,11 @@
-const { send } = require("micro");
-
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   switch (req.method) {
-    // Handle CORS requests
     case "OPTIONS":
       res.setHeader(
         "Access-Control-Allow-Methods",
-        "GET,HEAD,PUT,PATCH,POST,DELETE"
+        req.headers["access-control-request-method"]
       );
       if (req.headers["access-control-request-headers"]) {
         res.setHeader(
@@ -16,10 +13,9 @@ module.exports = (req, res) => {
           req.headers["access-control-request-headers"]
         );
       }
-      send(res, 204);
-    // Respond to all other requests
+      res.status(204).send("");
+      return;
     default:
-      // Set response headers
       if (req.headers["response-headers"]) {
         let responseHeaders;
         try {
@@ -31,11 +27,15 @@ module.exports = (req, res) => {
           });
         }
         Object.entries(responseHeaders).forEach((keyValuePair) => {
-          res.setHeader(keyValuePair[0], keyValuePair[1]);
+          if (!denyList.has(keyValuePair[0])) {
+            res.setHeader(keyValuePair[0], keyValuePair[1]);
+          }
         });
       }
 
-      // Send our response
-      send(res, 200, req.headers["response-body"]);
+      res
+        .status(req.headers["response-status"] || 200)
+        .send(req.headers["response-body"]);
+      return;
   }
 };
