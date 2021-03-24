@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
       res.status(204).send("");
       return;
     default:
-      if (req.headers.host === "httpmock.app") {
+      console.log(Object.entries(req.headers));
+      if (req.headers.origin.endswith("httpmock.app")) {
         res.setHeader("Content-Type", "text/html; charset=UTF-8");
         res.send(
           '<p>Please see <a href="https://github.com/ewolfe/http-mock">https://github.com/ewolfe/http-mock</a> to use httpmock.app programatically.</p>'
