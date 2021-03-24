@@ -21,6 +21,7 @@ module.exports = async (req, res) => {
         res.send(
           '<p>Please see <a href="https://github.com/ewolfe/http-mock">https://github.com/ewolfe/http-mock</a> to use httpmock.app programatically.</p>'
         );
+        return;
       }
       if (req.headers["response-headers"]) {
         let responseHeaders;
@@ -33,9 +34,7 @@ module.exports = async (req, res) => {
           });
         }
         Object.entries(responseHeaders).forEach((keyValuePair) => {
-          if (!denyList.has(keyValuePair[0])) {
-            res.setHeader(keyValuePair[0], keyValuePair[1]);
-          }
+          res.setHeader(keyValuePair[0], keyValuePair[1]);
         });
       }
 
