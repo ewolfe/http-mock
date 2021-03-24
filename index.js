@@ -1,47 +1,50 @@
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-
-  switch (req.method) {
-    case "OPTIONS":
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        req.headers["access-control-request-method"]
-      );
-      if (req.headers["access-control-request-headers"]) {
+  try {
+    switch (req.method) {
+      case "OPTIONS":
         res.setHeader(
-          "Access-Control-Allow-Headers",
-          req.headers["access-control-request-headers"]
+          "Access-Control-Allow-Methods",
+          req.headers["access-control-request-method"]
         );
-      }
-      res.status(204).send("");
-      return;
-    default:
-      console.log(Object.entries(req.headers));
-      if (req.headers.origin.endswith("httpmock.app")) {
-        res.setHeader("Content-Type", "text/html; charset=UTF-8");
-        res.send(
-          '<p>Please see <a href="https://github.com/ewolfe/http-mock">https://github.com/ewolfe/http-mock</a> to use httpmock.app programatically.</p>'
-        );
+        if (req.headers["access-control-request-headers"]) {
+          res.setHeader(
+            "Access-Control-Allow-Headers",
+            req.headers["access-control-request-headers"]
+          );
+        }
+        res.status(204).send("");
         return;
-      }
-      if (req.headers["response-headers"]) {
-        let responseHeaders;
-        try {
-          responseHeaders = JSON.parse(req.headers["response-headers"]);
-        } catch (error) {
-          req.status(500).json({
-            error: "Failed parsing 'response-headers'",
-            info: error.toString(),
-          });
+      default:
+        console.log(Object.entries(req.headers));
+        if (req.headers.origin && req.headers.origin.endswith("httpmock.app")) {
+          res.setHeader("Content-Type", "text/html; charset=UTF-8");
+          res.send(
+            '<p>Please see <a href="https://github.com/ewolfe/http-mock">https://github.com/ewolfe/http-mock</a> to use httpmock.app programatically.</p>'
+          );
           return;
         }
-        Object.entries(responseHeaders).forEach((keyValuePair) => {
-          res.setHeader(keyValuePair[0], keyValuePair[1]);
-        });
-      }
+        if (req.headers["response-headers"]) {
+          let responseHeaders;
+          try {
+            responseHeaders = JSON.parse(req.headers["response-headers"]);
+          } catch (error) {
+            req.status(500).json({
+              error: "Failed parsing 'response-headers'",
+              info: error.toString(),
+            });
+            return;
+          }
+          Object.entries(responseHeaders).forEach((keyValuePair) => {
+            res.setHeader(keyValuePair[0], keyValuePair[1]);
+          });
+        }
 
-      res
-        .status(req.headers["response-status"] || 200)
-        .send(req.headers["response-body"]);
+        res
+          .status(req.headers["response-status"] || 200)
+          .send(req.headers["response-body"]);
+    }
+  } catch (e) {
+    res.status(500).send(e);
   }
 };
