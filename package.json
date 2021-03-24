@@ -13,6 +13,10 @@
     "dev": "vercel dev"
   },
   "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
     "prettier": "2.2.1",
     "vercel": "^21.3.3"
   }
